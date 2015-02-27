@@ -1,0 +1,9 @@
+.idea
+node_modules
+*.log
+coverage
+
+
+# npmignore
+example
+test
