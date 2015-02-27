@@ -7,3 +7,4 @@ coverage
 # npmignore
 example
 test
+.jshintrc
