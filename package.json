@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "istanbul cover _mocha && npm run example && jshint index.js test/*.js",
-    "example": "cd example && npm i -D .. && npm i && karma start "
+    "example": "cd example && npm i -D .. && npm i && ./node_modules/karam/bin/karma start "
   },
   "repository": {
     "type": "git",
