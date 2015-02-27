@@ -46,7 +46,12 @@ module.exports = function(karma){
 };
 ```
 
-If the automatic scanning is not working for you, you can enter angular module names like so:
+If the automatic scanning is not working for you, you can force which modules are included with an
+array of strings as shown below. This really is not recommended, as it's not really saving you any work
+(just use the files array at this point) and you lose out on managing those dependencies entirely from
+`npm install` / `remove`. Provided mostly as a way for you to hot-fix if angular releases a new module you
+need **right now** and I have not white listed it yet. If that is the case, please create an issue, or
+better yet write up a quick Pull Request on [the white-list in this file](https://github.com/jamestalmage/karma-angular/blob/master/index.js).
 
  ```javascript
 module.exports = function(karma){
