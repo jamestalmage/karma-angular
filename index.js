@@ -30,6 +30,7 @@ function prefix(shortName){
 }
 
 function framework(files, ngConfig){
+  if(!files) throw new Error('Your karma config must contain a files array');
   var added = {};
   if( Array.isArray(ngConfig) ) {
     ngConfig.forEach(function(file){

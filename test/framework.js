@@ -168,4 +168,10 @@ describe('framework',function(){
       framework(files, ['angular-route', 'not-an-angular-depo', 'angular-mocks']);
     }).to.throw();
   });
+
+  it('will throw with a helpful message if files is not injected', function() {
+    expect(function(){
+      framework();
+    }).to.throw(/karma config must contain/);
+  });
 });
