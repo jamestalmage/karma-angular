@@ -1,3 +1,5 @@
+'use strict';
+
 describe('framework',function(){
   var sinon = require('sinon');
   var chai = require('chai');
