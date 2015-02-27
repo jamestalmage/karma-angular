@@ -1,6 +1,9 @@
 'use strict';
 
-var path = require('path');
+// THE MODULE WHITELIST
+// At time of writing these are all the officially blessed angular modules.
+// We won't add any others matching the regex above unless explicitly told to
+// via the angular array parameter
 
 var whitelist = [
   'angular-animate',
@@ -14,11 +17,25 @@ var whitelist = [
   'angular-touch'
 ];
 
-var pattern = function(file) {
+var path = require('path');
+
+//only files matching this regex will be added.
+var regex = /^angular-[a-z]+$/;
+
+// Files from npm aren't going to change often enough to warrant watching them.
+var karmaFilePattern = function(file) {
   file =  path.join(process.cwd(), 'node_modules', file, file + '.js');
   return {pattern: file, included: true, served: true, watched: false};
 };
 
+/**
+ * Take a potentially short 'mocks' and prefix it so it's 'angular-mocks'
+ * Returns null if you try to add 'angular' (which needs to be placed at the front of the array).
+ * Throws if nothing matches.
+ * @param {string} shortName possibly / possibly not prefixed name
+ * @returns {string|null} prefixed name, or null if trying to add core angular
+ * @throws If trying to add a non angular-* package.
+ */
 function prefix(shortName){
   var lc = shortName.toLowerCase().trim();
   if(lc === 'angular'){
@@ -31,22 +48,34 @@ function prefix(shortName){
   return lc;
 }
 
+//This is where the magic happens! Params injected automatically by karma
 function framework(files, ngConfig){
   if(!files) throw new Error('Your karma config must contain a files array');
   var added = {};
   if( Array.isArray(ngConfig) ) {
+    // handle the array input
     ngConfig.forEach(function(file){
       addFile(file, files, added, true);
     });
   } else {
+    // scan package.json for matching angular-* dependencies
     var pkg = require(path.resolve(__dirname, process.cwd(),'package.json'));
     ['devDependencies', 'peerDependencies', 'dependencies'].forEach(function(prop){
       if(pkg[prop]) addFiles(files, Object.keys(pkg[prop]), added);
     });
   }
-  files.unshift(pattern('angular'));
+  files.unshift(karmaFilePattern('angular'));   //always unshift angular last (so it's first!).
 }
+framework.$inject = ['config.files', 'config.angular'];
+module.exports = {'framework:angular': ['factory', framework]};
 
+/**
+ * Adds files
+ * @param {string} file the name of the file ('angular-mocks', 'mocks', 'route', etc).
+ * @param {string[]} files array to prepend dependency sources on
+ * @param {Object} added a map of string file names to booleans telling us whether this file has already been added.
+ * @param {boolean} force if true, will add the file even if it isn't in the white-list
+ */
 function addFile(file, files, added, force){
   file = prefix(file);
   if(!file) return; // angular will be added at the beginning;
@@ -60,20 +89,20 @@ function addFile(file, files, added, force){
     ].join('\n'));
     return;
   }
-  var filePattern = pattern(file);
+  var filePattern = karmaFilePattern(file);
   console.log('adding ' + filePattern.pattern);
   files.unshift(filePattern);
   added[file] = true;
 }
 
+/**
+ *
+ * @param {string[]} files array to prepend dependency sources on
+ * @param {string[]} keys the key names from `dependencies`, `devDependencies`, etc.
+ * @param {Object} added a map of string file names to booleans telling us whether this file has already been added.
+ */
 function addFiles(files, keys, added){
   keys.forEach(function(key){
     if(regex.test(key)) addFile(key, files, added);
   });
 }
-
-framework.$inject = ['config.files', 'config.angular'];
-module.exports = {'framework:angular': ['factory', framework]};
-
-var regex = /^angular-[a-z]+$/;
-
