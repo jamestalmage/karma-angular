@@ -64,3 +64,6 @@ module.exports = function(karma){
 };
 ```
 
+If for some reason you need further examples, one can be found
+[here](https://github.com/jamestalmage/karma-angular/tree/master/example).
+
