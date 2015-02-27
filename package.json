@@ -1,6 +1,6 @@
 {
   "name": "karma-angular",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Simplifies getting angular tests running on karma",
   "main": "index.js",
   "scripts": {

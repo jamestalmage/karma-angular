@@ -2,6 +2,7 @@ karma-angular
 ============
 [![Build Status](https://travis-ci.org/jamestalmage/karma-angular.svg?branch=master)](https://travis-ci.org/jamestalmage/karma-angular)
 [![Coverage Status](https://coveralls.io/repos/jamestalmage/karma-angular/badge.svg?branch=master)](https://coveralls.io/r/jamestalmage/karma-angular?branch=master)
+
 The Angular team is now reliably releasing all of the angular modules via npm.
 Typically you'd need to add a bunch of boiler plate referencing those paths,
 and make sure they are included in the right order.
