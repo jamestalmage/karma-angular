@@ -4,7 +4,7 @@
   "description": "Simplifies getting angular tests running on karma",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover _mocha && npm run example && jshint index.js test/*.js",
+    "test": "istanbul cover \"../mocha/bin/_mocha\" && npm run example && jshint index.js test/*.js",
     "example": "cd example && npm i -D .. && npm i && ./node_modules/karma/bin/karma start",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
