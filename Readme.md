@@ -47,6 +47,8 @@ module.exports = function(karma){
 };
 ```
 
+__Attention:__ `angular` has to be added to `frameworks` __before__ `mocha` or `jasmine`, otherwise `angular-mocks` does not expose all of its methods.
+
 If the automatic scanning is not working for you, you can force which modules are included with an
 array of strings as shown below. This really is not recommended, as it's not really saving you any work
 (just use the files array at this point) and you lose out on managing those dependencies entirely from
