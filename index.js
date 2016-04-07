@@ -14,7 +14,8 @@ var whitelist = [
   'angular-mocks',
   'angular-resource',
   'angular-route',
-  'angular-touch'
+  'angular-touch',
+  'angular-uuid'
 ];
 
 var path = require('path');
