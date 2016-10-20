@@ -14,7 +14,10 @@ var whitelist = [
   'angular-mocks',
   'angular-resource',
   'angular-route',
-  'angular-touch'
+  'angular-touch',
+  'angular-material',
+  'angular-moment',
+  'angular-sanitize'
 ];
 
 var path = require('path');
