@@ -18,14 +18,17 @@ var whitelist = [
 ];
 
 var path = require('path');
+var fs = require('fs');
 
 //only files matching this regex will be added.
 var regex = /^angular-[a-z]+$/;
 
 // Files from npm aren't going to change often enough to warrant watching them.
-var karmaFilePattern = function(file) {
-  file =  path.join(process.cwd(), 'node_modules', file, file + '.js');
-  return {pattern: file, included: true, served: true, watched: false};
+var karmaFilePattern = function(module) {
+  var file =  path.join(process.cwd(), 'node_modules', module, module + '.js');
+    if (!fs.existsSync(file)) {
+      file =  path.join(process.cwd(), 'node_modules', module, 'dist', module + '.js');
+    }  return {pattern: file, included: true, served: true, watched: false};
 };
 
 /**
