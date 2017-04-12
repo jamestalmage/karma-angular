@@ -51,20 +51,22 @@ function prefix(shortName){
 //This is where the magic happens! Params injected automatically by karma
 function framework(files, ngConfig){
   if(!files) throw new Error('Your karma config must contain a files array');
+  var angularFiles = []; // Work on angular files separately to avoid missing with other modules in karma files array
   var added = {};
   if( Array.isArray(ngConfig) ) {
     // handle the array input
     ngConfig.forEach(function(file){
-      addFile(file, files, added, true);
+      addFile(file, angularFiles, added, true);
     });
   } else {
     // scan package.json for matching angular-* dependencies
     var pkg = require(path.resolve(__dirname, process.cwd(),'package.json'));
     ['devDependencies', 'peerDependencies', 'dependencies'].forEach(function(prop){
-      if(pkg[prop]) addFiles(files, Object.keys(pkg[prop]), added);
+      if(pkg[prop]) addFiles(angularFiles, Object.keys(pkg[prop]), added);
     });
   }
-  files.unshift(karmaFilePattern('angular'));   //always unshift angular last (so it's first!).
+  angularFiles.unshift(karmaFilePattern('angular'));   //always unshift angular last (so it's first!).
+  files.push.apply(files, angularFiles); // Add angular modules to files
 }
 framework.$inject = ['config.files', 'config.angular'];
 module.exports = {'framework:angular': ['factory', framework]};

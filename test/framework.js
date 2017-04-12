@@ -176,4 +176,11 @@ describe('framework',function(){
       framework();
     }).to.throw(/karma config must contain/);
   });
+
+  it('will not mess with existing entries in files', function() {
+    files = ['something-else-in-files-array'];
+    framework(files, ['angular-route', 'angular-mocks']);
+    expect(files.shift()).to.eql('something-else-in-files-array');
+    sortedEquals('angular-mocks','angular-route');
+  });
 });
